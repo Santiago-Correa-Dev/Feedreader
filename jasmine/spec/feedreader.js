@@ -21,9 +21,9 @@ $(function() {
          * allFeeds in app.js to be an empty array and refresh the
          * page?
          */
-        it('are defined', function() {
+        it('are defined', function() { // Checks that theAllFeeds Array has been defined.
             expect(allFeeds).toBeDefined();
-            expect(allFeeds.length).not.toBe(0);
+            expect(allFeeds.length).not.toBe(0); // Checks that the AllFeeds Array length is greater than 0
         });
 
 
@@ -35,8 +35,9 @@ $(function() {
             for (var i = 0; i >= allFeeds.length; i++) {
                 var array = allFeeds[i];
             }
-            expect(allFeeds[i].url).toBeDefined();
-            expect(allFeeds.length).not.toBe(0);
+
+            expect(allFeeds[i].url).toBeDefined(); //Checks that all URL's are defined.
+            expect(allFeeds[i].url).not.toBe(''); // Checks that it is not an empty string.
         });
 
 
@@ -48,8 +49,8 @@ $(function() {
             for (var i = 0; i >= allFeeds.length; i++) {
                 var array = allFeeds[i];
             }
-            expect(allFeeds[i].name).toBeDefined();
-            expect(allFeeds.length).not.toBe(0);
+            expect(allFeeds[i].name).toBeDefined(); //Checks that all names are defined.
+            expect(allFeeds[i].name).not.toBe(''); // Checks that it is not an empty string.
         });
     });
 
@@ -63,7 +64,7 @@ $(function() {
          * hiding/showing of the menu element.
          */
         it('Menu is hidden by default', function() {
-            expect(body.hasClass('menu-hidden')).toEqual(true);
+            expect(body).contains('.menu-hidden'); //Checks that body is hidden by default.
         });
 
         /* TODO: Write a test that ensures the menu changes
@@ -72,11 +73,11 @@ $(function() {
          * clicked and does it hide when clicked again.
          */
         it('Menu toggles hide and show', function() {
-            $('.menu-icon-link').trigger('click');
-            expect(body.hasClass('menu-hidden')).toEqual(false);
+            $('.menu-icon-link').trigger('click'); //This is to check if user clicks 
+            expect(body.contains('menu-hidden')).toEqual(false); //If user clicks want to check if menu-hidden will show
 
             $('.menu-icon-link').trigger('click');
-            expect(body.hasClass('menu-hidden')).toEqual(true);
+            expect(body.hasClass('menu-hidden')).toEqual(true); // If user clicks again want to check if it will hide.
         });
     });
 
@@ -85,6 +86,7 @@ $(function() {
 
         beforeEach(function(done) {
             loadFeed(0, function() {
+                var feed = allFeeds[0];
                 done();
             });
         });
@@ -97,9 +99,10 @@ $(function() {
          */
 
         it('Contains a single entry element', function(done) {
-            var entry = $('.feed .entry')[0];
-            expect(entry).toBeGreaterThan('');
-            done();
+            loadFeed(0, function() {
+                done();
+                expect(feed.length > 0).toEqual(true);
+            });
         });
 
     });
@@ -109,6 +112,7 @@ $(function() {
 
         beforeEach(function(done) {
             loadFeed(0, function() {
+                var feed = allFeeds[0];
                 done();
             });
         });
@@ -120,14 +124,12 @@ $(function() {
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
 
-        it('Loads a new feed', function(done) {
-            var entry = $('.feed .entry')[0];
-            expect(entry).toBeGreaterThan('');
-            done();
+        it('Contains a single entry element', function(done) {
+            loadFeed(1, function() {
+                var feed1 = allFeeds[1];
+                done();
+                expect(feed).not.toEqual(feed1);
+            });
         });
-        /* TODO: Write a test that ensures when a new feed is loaded
-         * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous.
-         */
     });
 }());
