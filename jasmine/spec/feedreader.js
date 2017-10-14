@@ -83,9 +83,7 @@ $(function() {
     describe('Initial Entries', function() {
 
         beforeEach(function(done) {
-            loadFeed(0, function() {
-                done();
-            });
+            loadFeed(0, done);
         });
 
         /* Test that ensures when the loadFeed
@@ -96,28 +94,25 @@ $(function() {
          */
 
         it('Contains a single entry element', function() {
-            expect($('.feed .entry-link').length > 0).toBe(true);
+            expect($('.feed .entry').length > 0).toBe(true);
         });
     });
 
     // Checks to see if there is at least one entry element within the feed.container 
+    // Loadfeed function has been defined twice in before each to test different entry contents on load.
     describe('New Feed Selection', function() {
-
         beforeEach(function(done) {
-            loadFeed(1, function() {
-                done();
+            loadFeed(0, function() {
+                feed0 = $('.feed').html();
+                loadFeed(1, function() {
+                    feed1 = $('.feed').html();
+                    done();
+                });
             });
         });
-
-        /* TODO: Write a test that ensures when the loadFeed
-         * function is called and completes its work, there is at least
-         * a single .entry element within the .feed container.
-         * Remember, loadFeed() is asynchronous so this test will require
-         * the use of Jasmine's beforeEach and asynchronous done() function.
-         */
-
         it('Contains a single entry element', function() {
-                expect($('.feed .entry-link').length > 0).toBe(true);
+            expect(feed0).not.toEqual(feed1);
         });
     });
+
 }());
